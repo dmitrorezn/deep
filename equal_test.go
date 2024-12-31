@@ -1,6 +1,3 @@
-// Copyright 2021 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 package deep
 
 import (
@@ -8,22 +5,22 @@ import (
 	"testing"
 )
 
-var m1 = map[int]int{1: 2, 2: 4, 4: 8, 8: 16}
+var m1 = map[int]any{1: map[int]int{1: 1}, 2: []any{4}, 4: 8, 8: 16}
 
 func TestEqualMaps(t *testing.T) {
 	if !EqualMaps(m1, m1) {
 		t.Errorf("Equal(%v, %v) = false, want true", m1, m1)
 	}
-	if EqualMaps(m1, (map[int]int)(nil)) {
+	if EqualMaps(m1, (map[int]any)(nil)) {
 		t.Errorf("Equal(%v, nil) = true, want false", m1)
 	}
-	if EqualMaps((map[int]int)(nil), m1) {
+	if EqualMaps((map[int]any)(nil), m1) {
 		t.Errorf("Equal(nil, %v) = true, want false", m1)
 	}
-	if !EqualMaps[map[int]int, map[int]int](nil, nil) {
+	if !EqualMaps[map[int]any, map[int]any](nil, nil) {
 		t.Error("Equal(nil, nil) = false, want true")
 	}
-	if ms := map[int]int{1: 2}; EqualMaps(m1, ms) {
+	if ms := map[int]any{1: 2}; EqualMaps(m1, ms) {
 		t.Errorf("Equal(%v, %v) = true, want false", m1, ms)
 	}
 

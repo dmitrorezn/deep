@@ -42,11 +42,12 @@ func equalValues[V comparable](v1, v2 V) bool {
 		iter1 := val1.MapRange()
 		for iter1.Next() {
 			k, v1 := iter1.Key(), iter1.Value()
-			v2 := val2.MapIndex(reflect.ValueOf(k))
-			if v2.IsZero() && !v1.IsZero() || !equalValues(v1, v2) {
+			if v2 := val2.MapIndex(k); v2.IsZero() && !v1.IsZero() || !equalValues(v1.Interface(), v2.Interface()) {
 				return false
 			}
 		}
+
+		return true
 	}
 
 	return v1 == v2
